@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_prestamos_socio_asistente,access.prestamos.socio.asist,model_prestamos_prestamo,prestamos.group_prestamos_asistente,1,1,0,0
+access_prestamos_socio_manager,access.prestamos.socio.man,model_prestamos_prestamo,prestamos.group_prestamos_manager,1,1,1,1
+
+access_prestamos_cuota_asistente,access.prestamos.cuota.asist,model_prestamos_cuota,prestamos.group_prestamos_asistente,1,1,0,0
+access_prestamos_cuota_manager,access.prestamos.cuota.man,model_prestamos_cuota,prestamos.group_prestamos_manager,1,1,1,0

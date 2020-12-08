@@ -1,0 +1,81 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="prestamo_tree">
+      <field name="name">Prestamo</field>
+      <field name="model">prestamos.prestamo</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="socio_id" domain="[('es_socio', '=', True)]"/>
+          <field name="orden"/>
+          <field name="interes"/>
+          <field name="cuotas"/>
+          <field name="cuota"/>
+          <field name="estado"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="prestamo_form">
+      <field name="name">Prestamo</field>
+      <field name="model">prestamos.prestamo</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <field name="estado" widget="statusbar"/>
+          </header> 
+          <sheet>
+            <group>
+              <field name="socio_id" domain="[('es_socio', '=', True)]" attrs="{'readonly': [('estado', '=', 'En cuotas')]}"/>
+              <!-- ('socio_id', '=', False) asegura que primero se ingrese el socio y luego la orden de compra -->
+              <field name="orden" attrs="{'readonly': ['|', ('estado', '=', 'En cuotas'), ('socio_id', '=', False)]}"/>
+              <field name="monto_prestamo" readonly="1"/>
+              <field name="interes" attrs="{'readonly': [('estado', '=', 'En cuotas')]}"/>
+              <field name="cuotas" attrs="{'readonly': [('estado', '=', 'En cuotas')]}"/>
+            </group>
+            <button name="calcula_cuotas" string="Calcula cuota mensual" type="object" class="oe_highlight" attrs="{'invisible':[('estado', '=', 'En cuotas')]}"/>
+            <group>
+              <field name="cuota" readonly="1" />
+            </group>
+            <button name="desdoblar" string="Confirmar" type="object" class="oe_highlight" confirm="Esta operación es irreversible. ¿Está seguro de continuar?"  attrs="{'invisible':[('estado', '=', 'En cuotas')]}"/>
+            <group>  
+              <field name="lista_cuotas">
+                <tree editable="bottom" create="false" delete="false">
+                  <field name="numero" readonly="1"/>
+                  <field name="monto" readonly="1"/>
+                  <field name="vencimiento" readonly="1"/>
+                  <field name="estado" readonly="1"/>
+                  <field name="tipo_pago" readonly="1"/>
+                  <field name="pagada" invisible="1"/>
+                  <field name="no_vencida" invisible="1"/>
+                  <field name="activa" invisible="1"/>
+
+                  <button name="reg_pago" string="Registar pago" type="object" confirm="¿Confirmar Pago?" class="oe_highlight"  attrs="{'invisible': [('activa', '=', False)]}"/>
+                </tree>
+              </field>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="action_prestamos" model="ir.actions.act_window">
+      <field name="name">Prestamos</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">prestamos.prestamo</field>
+     <!-- <field name="context"> {"search_default_filter_socio":1} </field>  search_default_<filter name>  -->
+      <field name="context">{}</field>
+      <!-- <field name="domain">[('es_socio', '=', True)]</field> -->
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Agrege un prestamo.        
+        </p>
+      </field>
+    </record>
+
+    <menuitem id="prestamos_root" name="Prestamos" sequence="" />
+    <menuitem id="prestamos_socio" name="Prestamos"  sequence="0"  parent="prestamos_root" action="action_prestamos"/>
+
+  </data>
+</odoo>
