@@ -24,6 +24,7 @@ class cuota(models.Model):
     ('Efectivo', 'Efectivo'),
   ], default="Fibra", string="Tipo de pago")
 
+  # Funcion del boton pagar
   def reg_pago(self):
     self.pagada = True
     print("Pago registrado")

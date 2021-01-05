@@ -28,7 +28,10 @@
               <field name="socio_id" domain="[('es_socio', '=', True)]" attrs="{'readonly': [('estado', '=', 'En cuotas')]}"/>
               <!-- ('socio_id', '=', False) asegura que primero se ingrese el socio y luego la orden de compra -->
               <field name="orden" attrs="{'readonly': ['|', ('estado', '=', 'En cuotas'), ('socio_id', '=', False)]}"/>
-              <field name="monto_prestamo" readonly="1"/>
+              <field name="dia_vencimiento" attrs="{'readonly': ['|', ('estado', '=', 'En cuotas'), ('socio_id', '=', False)]}"/>
+              <field name="currency_id" attrs="{'invisible':True}" />
+
+              <field name="monto_prestamo" readonly="1" widget="monetary"/>
               <field name="interes" attrs="{'readonly': [('estado', '=', 'En cuotas')]}"/>
               <field name="cuotas" attrs="{'readonly': [('estado', '=', 'En cuotas')]}"/>
             </group>
